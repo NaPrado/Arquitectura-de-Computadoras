@@ -1,4 +1,9 @@
 
+;db(define byte) -> byte
+;dw(define word) -> 2 bytes
+;dd(define double word) -> 4 bytes
+;dq(define q word) -> 8 bytes
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;       stack frame         ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
