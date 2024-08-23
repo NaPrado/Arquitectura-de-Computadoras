@@ -5,38 +5,105 @@ GLOBAL strlen
 GLOBAL intToString
 GLOBAL sumFirst2Digit
 GLOBAL fact
-GLOBAL menor
+GLOBAL menorArr
 GLOBAL sort
+GLOBAL printArr
+GLOBAL getArgsCant
 
 section .text
 ;===============================================================================
+;Recibe un array de longitud ax bytes en ebx y lo imprime
+;===============================================================================
+printArr:
+    push ebp
+    mov ebp,esp
+    sub esp,0x50
+    pushad
+    mov dword[ebp-0x4],eax
+    mov dword[ebp-0x8],ebx
+    mov dword[ebp-0xc],40; ascii del parentesis
+    mov edx,0
+    mov ebx,ebp
+    sub ebx,0xc
+    call print 
+.printNums:
+    mov ebx,dword[ebp-0x8]
+    mov al,byte[ebx]
+    mov ah,0
+    mov bl,byte[ebp-0xc]
+    call intToString
+    call print
+    cmp edx,dword[ebp-0x4]
+    jg .printParentesis
+.printComa:
+    mov dword[ebp-0xc],','; ascii del parentesis
+    mov dword[ebp-0x10],0
+    mov ebx,ebp
+    sub ebx,0xc
+    call print
+    inc dword[ebp-0x8]
+    dec dword[ebp-0x4]
+    inc edx
+    jg .printNums
+.printParentesis:
+    mov dword[ebp-0xc],41; ascii del parentesis
+    mov ebx,ebp
+    sub ebx,0xc
+    call print 
+    popad
+    leave
+    ret
+;===============================================================================
 ;Recibe un array de longitud ax bytes en ebx y lo ordena
 ;===============================================================================
-
 sort:
+    push ebp
+    mov ebp,esp
+    sub esp,0x10
+    mov dword[ebp-0x4],eax
+    mov dword[ebp-0x8],ebx
+    mov dword[ebp-0xc],0
+    pushad
+.loop:
+    call menorArr
+    mov al, byte[ebx]
+    mov byte[ebx],cl
+    add ebx,edx
+    mov byte[ebx],al
+    mov ebx,dword[ebp-0x8]
+    inc dword[ebp-0xc]
+    add ebx,dword[ebp-0xc]
+    dec dword[ebp-0x4] 
+    mov eax,dword[ebp-0x4]
+    cmp eax,0
+    jne .loop
+    popad
+    leave
+    ret
+
 ;===============================================================================
-;Recibe un array de longitud ax bytes en ebx y retorna en ax el menor
+;Recibe un array de longitud ax bytes en ebx y retorna en cx el menor, en dx su pos
 ;===============================================================================
-menor:
+menorArr:
+    push ebp
+    mov ebp,esp
+    sub esp,0x4
+    mov byte [ebp-0x4],0
     push ebx
-    push ecx
-    push edx
-    mov dx,0
 .m:
+    mov edx,dword[ebp-0x4] 
     mov cl,byte[ebx]
 .next:
     inc ebx
-    inc dx
-    cmp dx,ax
+    inc byte [ebp-0x4]
+    cmp dword[ebp-0x4],eax
     je .exit
     cmp cl,byte[ebx]
     jl .next
     jmp .m
 .exit:
-    mov ax,cx
-    pop edx
-    pop ecx
     pop ebx
+    leave
     ret
 ;===============================================================================
 ;Retorna factorial de Al
@@ -158,7 +225,7 @@ next:
 ; print - imprime una cadena en la salida estandar
 ;===============================================================================
 ; Argumentos:
-;	ebx: cadena a imprimer en pantalla, terminada con 0
+;	ebx: cadena a imprimir en pantalla, terminada con 0
 ;===============================================================================
 print:
 	pushad		; hago backup de los registros
