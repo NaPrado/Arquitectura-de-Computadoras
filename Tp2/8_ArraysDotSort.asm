@@ -12,7 +12,7 @@ _start:
     call printArr
     mov ebx,nl
     call print
-    mov ax, 0
+    mov ebx, 0
     call exit
 section .data
     nl db 10,0
