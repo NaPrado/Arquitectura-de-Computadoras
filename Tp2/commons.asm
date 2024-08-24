@@ -12,8 +12,45 @@ GLOBAL getArgsCant
 GLOBAL strcmp
 GLOBAL startWith
 GLOBAL getUser
+GLOBAL getpid
+GLOBAL getppid
+GLOBAL fork
+GLOBAL nanoSleep
+
 
 section .text
+;===============================================================================
+;syscall nanosleep, ebx puntero a timespec
+;ejemplo
+;timespec:
+;    dd 1         ; 1 segundo
+;    dd 500000000 ; 500 millones de nanosegundos (500 ms)
+;===============================================================================
+nanoSleep:
+    mov eax,162
+    int 80h
+    ret
+;===============================================================================
+;syscall duplicate a process, for more info man 2 fork
+;===============================================================================
+fork:
+    mov eax,2
+    int 80h
+    ret 
+;===============================================================================
+;syscall eax=pid of father, for more info man 2 getppid
+;===============================================================================
+getppid:
+    mov eax,0x40
+    int 80h
+    ret 
+;===============================================================================
+;syscall eax=pid , for more info man 2 getppid
+;===============================================================================
+getpid:
+    mov eax,20
+    int 80h
+    ret 
 ;===============================================================================
 ;ebx=$USER, se debe llamar desde _start, creo
 ;===============================================================================
