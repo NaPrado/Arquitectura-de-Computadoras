@@ -9,8 +9,94 @@ GLOBAL menorArr
 GLOBAL sort
 GLOBAL printArr
 GLOBAL getArgsCant
+GLOBAL strcmp
+GLOBAL startWith
+GLOBAL getUser
 
 section .text
+;===============================================================================
+;ebx=$USER, se debe llamar desde _start, creo
+;===============================================================================
+getUser:
+    push ebp
+    mov ebp,esp
+    mov ecx,ebp
+.loop:
+    mov ebx,user
+    call startWith
+    inc ecx
+    cmp edx,0
+    je .loop 
+    mov ebx,ecx
+    add ebx,4
+    leave
+    ret
+;===============================================================================
+;compara una cadena de texto ebx null terminated con otra ecx y 
+;si ecx empieza con ebx, edx=1 sino edx=0
+;===============================================================================
+startWith:
+    push ebp
+    mov ebp,esp
+    sub esp,0x50
+    push ebx
+    push ecx
+    mov dword[ebp-0x4],ebx
+    mov dword[ebp-0x8],ecx
+    mov edx,1
+.loop:
+    mov ebx,dword[ebp-0x4];cargo donde tengo guardado el string
+    mov ecx,dword[ebp-0x8];cargo donde tengo guardado el string
+    mov bl,byte[ebx];cargo el caracter
+    mov cl,byte[ecx];cargo el caracter
+
+    cmp bl,cl ;comparo si son iguales
+    je .iguales
+    and edx,0
+.iguales:
+    and edx,1
+    inc dword[ebp-0x4];cargo donde tengo guardado el string
+    inc dword[ebp-0x8];cargo donde tengo guardado el string
+    mov ebx,dword[ebp-0x4]
+    mov bl,byte[ebx]
+    cmp bl,0 ;me fijo si b termino
+    jne .loop
+    pop ecx
+    pop ebx
+    leave
+    ret
+
+;===============================================================================
+;ax=strcmp(ebx,ecx);no hacia falta :(
+;===============================================================================
+strcmp:
+    push ebp
+    mov ebp,esp
+    sub esp,0x50
+    push ebx
+    push ecx
+    mov dword[ebp-0x4],ebx
+    mov dword[ebp-0x8],ecx
+    mov eax,1
+.loop:
+    mov ebx,dword[ebp-0x4];cargo donde tengo guardado el string
+    mov ecx,dword[ebp-0x8];cargo donde tengo guardado el string
+    mov bl,byte[ebx];cargo el caracter
+    mov cl,byte[ecx];cargo el caracter
+
+    cmp bl,cl ;comparo si son iguales
+    je .iguales
+    and eax,0
+.iguales:
+    and eax,1
+    inc dword[ebp-0x4];cargo donde tengo guardado el string
+    inc dword[ebp-0x8];cargo donde tengo guardado el string
+    and bl,cl ;me fijo si alguno es cero
+    jnz .loop
+    pop ecx
+    pop ebx
+    leave
+    ret
 ;===============================================================================
 ;Recibe un array de longitud ax bytes en ebx y lo imprime
 ;===============================================================================
@@ -36,7 +122,7 @@ printArr:
     cmp edx,dword[ebp-0x4]
     jg .printParentesis
 .printComa:
-    mov dword[ebp-0xc],','; ascii del parentesis
+    mov dword[ebp-0xc],','
     mov dword[ebp-0x10],0
     mov ebx,ebp
     sub ebx,0xc
@@ -154,48 +240,48 @@ sumFirst2Digit:
     leave
     pop cx
     ret    
-
 ;===============================================================================
-;recibe un numero en AX y una direccion de memoria en EBX
+;recibe un numero en EAX y una direccion de memoria en EBX
 ;luego esa direccion es un string null terminated del numero
 ;===============================================================================
 intToString:
+    push ebp
+    mov ebp,esp
+    sub esp,0x50
     pushad ; guardo los registros
-    mov dx, 0 ;inicializo un contador
-    cmp ax,0 ;me fijo si el numero es positivo
-    jns .positive ; si lo es empieza el algoritmo
-    mov byte[ebx],'-' ;si no añado el - 
-    inc ebx ;y luego empieza el algoritmo
-    mov cx,-1
-    imul cx
-.positive: ;calcular numero
-;num=(num)/10, el resto lo cargo en la pila asi o +'0' luego cuando termino de leer el numero(cuando num==0) popeo la pila y la cargo en ebx luego cargo un 0
-    inc dx
-    mov cl,10
-    cmp ax,10
-    jl .oneDigit
-    idiv cl
-    add ah,'0'
-    mov cl,ah
-    mov ch,0
-    push cx
-    mov ah,0
-    jmp .positive
-.oneDigit:
+    mov byte [ebp-0x4], 0 ;inicializo un contador
+    mov edx,0
+    cmp eax,0
+    jge .positive
+    neg eax
+    mov byte[ebx],'-' 
+    inc ebx
+    cmp eax,10
+    jl .saveState
+.positive:
+    mov ecx,10
+    div ecx
+    mov cx,dx
+    mov edx,0
+    mov dx,cx
+    push edx
+    mov edx,0
+    inc byte [ebp-0x4]
+    cmp eax,10
+    jnle .positive
+.saveState:
     add al,'0'
-    mov byte[ebx], al
+    mov byte[ebx],al
     inc ebx
+    cmp byte [ebp-0x4],0
+    je .finish  
+    pop eax
+    dec byte [ebp-0x4]
+    jmp .saveState
 .finish:
-    dec dx
-    cmp dx,0
-    je .end
-    pop cx
-    mov byte[ebx], cl
-    inc ebx
-    jmp .finish
-.end:
     mov byte[ebx],0
     popad
+    leave
     ret
 
 ;===============================================================================
@@ -279,4 +365,5 @@ strlen:
 	pop ebx	; restauro ebx	
 	pop ecx	; restauro ecx
 	ret
-
+section .rodata
+    user db "USER=",0

@@ -2,8 +2,8 @@
 #include<stdlib.h>
 
 int main(int argc, char const *argv[]){
-    int charBytes=sizeof(char);
+    int charBytes=sizeof(int);
     int charBits=charBytes*8;
-    printf("El tamaño de un char es %d bits o %d Byte\n",charBits,charBytes);
+    printf("El tamaño de un int es %d bits o %d Byte\n",charBits,charBytes);
     return 0;
 }

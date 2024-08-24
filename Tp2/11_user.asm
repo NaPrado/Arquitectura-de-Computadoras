@@ -2,17 +2,14 @@ section .text
 GLOBAL _start
 EXTERN exit
 EXTERN print
+EXTERN getUser
 _start:
-    mov ebp,esp
-    mov eax,[ebp]
     mov ebx,hola
     call print
-    mov ebx,ebp
-    
+    call getUser
     call print
     mov ebx,nl
     call print
-
     mov ebx,0
     call exit
 section .data
