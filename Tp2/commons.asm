@@ -16,9 +16,19 @@ GLOBAL getpid
 GLOBAL getppid
 GLOBAL fork
 GLOBAL nanoSleep
+GLOBAL getString
 
 
 section .text
+;===============================================================================
+;ecx cargar puntero para guardar el string
+;===============================================================================
+getString:
+    mov eax,3 ;syscall read
+    mov ebx,0 ;stdin
+    mov edx,50;tamaño max
+    int 0x80
+    ret
 ;===============================================================================
 ;syscall nanosleep, ebx puntero a timespec
 ;ejemplo
@@ -27,28 +37,28 @@ section .text
 ;    dd 500000000 ; 500 millones de nanosegundos (500 ms)
 ;===============================================================================
 nanoSleep:
-    mov eax,162
+    mov eax,162 ;syscall nanosleep
     int 80h
     ret
 ;===============================================================================
 ;syscall duplicate a process, for more info man 2 fork
 ;===============================================================================
 fork:
-    mov eax,2
+    mov eax,2 ;syscall fork
     int 80h
     ret 
 ;===============================================================================
 ;syscall eax=pid of father, for more info man 2 getppid
 ;===============================================================================
 getppid:
-    mov eax,0x40
+    mov eax,0x40 ;syscall getppid
     int 80h
     ret 
 ;===============================================================================
 ;syscall eax=pid , for more info man 2 getppid
 ;===============================================================================
 getpid:
-    mov eax,20
+    mov eax,20 ;syscall getpid
     int 80h
     ret 
 ;===============================================================================
