@@ -1,0 +1,19 @@
+Compare la salida del archivo arguments.s con el ejemplo provisto en ASM. Más allá de 
+los elementos de control, ¿Qué diferencia encuentra? ¿Qué similitudes? 
+
+Los nombres de las funciones son diferentes, se llama a __x86.get_pc_thunk.ax que no 
+entiendo que hace, tambien hay muchas declaraciones de cosas como por ejemplo:
+.ident	"GCC: (Ubuntu 13.2.0-23ubuntu4) 13.2.0"
+	.section	.note.GNU-stack,"",@progbits
+o tambien:
+.file	"Ej2.c"
+	.intel_syntax noprefix
+tambien se usan comandos como lea (load efective address), comando que para nosotros no es
+muy importante pero para un compilador es fundamental.
+
+Para pensar: ¿Se imagina porque no se deben comparar las estructuras por valor, sino 
+miembro por miembro? ¿Porqué habría basura entre sus componentes? 
+
+No entiendo bien la pregunta pero asumo que habla de porque no hay que comparar punteros?
+sino su contenido?
+habria basura por que estoy comparando direcciones de memoria y no valores.

@@ -1,0 +1,8 @@
+1.  ¿Porqué se le suma al stack, luego de llamar a la función sprintf, 12 bytes? ¿Porqué se 
+hace lo mismo luego de llamar a puts? 
+    Se le suma al stack los bytes que fueron pusheados, esto se hace para restaurar el valor
+original del stack, de esta forma indicando que esa zona contiene basura y se puede pisar.
+
+2.  ¿Cuál es el valor de retorno de la función main?
+    El valor de retorno de la funcion main es el valor de retorno de la funcion puts. 
+(Por alguna razon es 10)

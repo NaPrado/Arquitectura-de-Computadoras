@@ -1,0 +1,2 @@
+¿Cual es la representación de -16 en hexadecimal? 
+    si estamos en 32b => FFF1
