@@ -1,0 +1,12 @@
+Identifique a que dirección de memoria relativa corresponde la variable factorial_n_1. 
+
+    La variable factorial_n_1 corresponde con ebp-12, tambien me di cuenta que 
+la variable n corresponde con ebp+8 (Cosa que es obvia).
+
+Ahora es obvio que se puede llamar de manera recursiva, ya que cada invocación de la 
+función tendrá su propia versión de dicha variable.
+
+    Esto es debido al uso del stack, las variables son cargadas en el stack y una 
+llamada a funcion "no termina"(no limpia sus variables locales), hasta que se desarma el 
+stack frame. Pero en cada invocación recursiva se genera un nuevo stack frame dentro del
+anterior.

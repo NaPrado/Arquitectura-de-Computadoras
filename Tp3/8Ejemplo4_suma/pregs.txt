@@ -1,0 +1,21 @@
+¿Porqué no se debe devolver un arreglo local a una función cómo valor de retorno?
+
+    Pues una vez terminada la funcion, esta "libera el stack" de esta forma, indicando
+que todas las variables locales, incluidos los arreglos, ahora son basura y pueden ser 
+pisados en cualquier momento.
+
+¿Porque restan 16 bytes de ESP y no simplemente 4? 
+
+    Si esta hecho por un compilador, la respuesta es que este reserva de más ya que no 
+es perfecto. Pero si esta hecho por un humano, quizas quiere dejar más espacio porque 
+o bien cuando codeo la funcion no sabia cuanto iba a usar y quedo asi o quizas quiere 
+expandirla y añadir más funcionalidades, de todas formas funciona igual.
+
+¿Porqué luego, de haber obtenido el resultado de la suma, que queda en el registro 
+EAX, se lo guarda en la zona de memoria asignada a la variable resultado y luego se la 
+vuelve a leer de ese lugar? 
+
+    Nuevamente el compilador no es perfecto, pero esta traduciendo literalmente lo que
+se muestra en el codigo c. El codigo c pide que se guarde en una variable resultado, la
+suma de a con b y luego pide que se haga un return de ese valor y en asm para retornar
+un valor se hace mediante el registro EAX

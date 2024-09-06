@@ -1,0 +1,9 @@
+Hasta  ahora,  siempre  que  hizo  falta  reservamos  espacio  en  la  zona  de  datos de  un 
+programa. Por ejemplo, para guardar una variable. Pero, ¿Qué ocurriría en el caso de que 
+una función sea recursiva? 
+
+Si una funcion es recursiva y usa la zona de datos, esta zona se pisaria con cada recursion
+
+¿Cómo hace C a que las variables automáticas sólo vivan en el scope de la función? La 
+respuesta es guardar esas variables en el stack, así, cuando un stack frame se destruye, al 
+mismo tiempo se libera la memoria utilizada para sus variables.

@@ -1,0 +1,6 @@
+para el ".c"
+gcc Ej8.c -fno-builtin -c -m32 -o nombre
+para el ".asm"
+nasm -f elf32 Ej8.asm -o nombre 
+para linkeditar
+ld -m elf_i386 *.o -o nombre

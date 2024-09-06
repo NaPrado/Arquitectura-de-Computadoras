@@ -1,0 +1,73 @@
+Declare en una función de C, un arreglo de las siguientes formas: 
+    1.Sin inicializar :
+YO pienso que no tendria que hacer nada 
+    
+    int foo(){
+        int arr[20];
+    }
+
+Me equivoque, reserva espacio en gs(es un data segment), además reserva, mucho stack
+pero enrealidad esa funcion no termina haciendo nada.
+
+
+    2.Con inicialización (int numeros[20] = {0}, ó char msg[] = “mensaje”) :
+
+    A.
+Para el primer caso yo supongo que se las ingenia para guardar menos memoria
+
+    int foo(){
+        int numeros[20] = {0};
+    }
+
+Otra vez equivocado xd, hace lo que uno supone, carga en alguna zona del gs 20 ceros usando
+rep stosd.
+
+    B.
+Esperaria que se reserve "mensaje" en el stack
+
+    int foo(){
+        char msg[] = "mensaje";
+    }
+
+Eeeeeh carga 2 numeros muy raros en el stack
+
+    3.Sin inicializar y luego realizando una escritura en el índice 10  
+
+reserva en gs los 20 espacios y luego escribe en 10
+
+    int fooFighters(){
+        int arreglado[20];
+        arreglado[10]=1;
+    }
+
+Creo que le pegue
+
+    4.Con inicialización y luego realizando una escritura en el índice 10 
+
+supongo que se reserva el espacio igual que en 2A y luego se carga el 1 en la pos 10
+
+    int fooFighters(){
+        int arreglado[20]={0};
+        arreglado[10]=1;
+    }
+
+Acerte una, vamos loco!!! (hize primero el 4 que el 3 porque me confundi)
+
+    5.De manera global, sin inicializar 
+
+Solo un rotulo
+
+    int arg[20];
+
+si.
+
+    6.De manera global inicializando.
+
+El rotulo con las variables que le paso.
+
+    int arr[]={13,10,2002};
+
+Si.
+
+Primero  suponga  cómo  debería  hacer  C  para  su  declaración,  y  luego  compare  sus 
+suposiciones con la salida en assembler. 
