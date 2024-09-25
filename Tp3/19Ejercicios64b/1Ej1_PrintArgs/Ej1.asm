@@ -25,7 +25,7 @@ main:
     mov rsi, rax
     mov rdx, [r10 + rax*8]
     push rax
-    mov eax,0   ;que divertido el printf fue hecho por tarados
+    mov rax,0   ;que divertido el printf fue hecho por tarados
                 ;si eax no esta en cero falla delulu hasta que me di cuenta
                 ;no hay registro que vos sepas que se va a preservar (*_*)
                 ;Mi vieja me dio la vida, printf las ganas de no vivir

@@ -1,0 +1,1 @@
+gcc -c fibo.c -m64 -fno-dwarf2-cfi-asm -fno-exceptions -S -fno-asynchronous-unwind-tables -masm=intel

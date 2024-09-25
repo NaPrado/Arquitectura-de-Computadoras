@@ -1,0 +1,61 @@
+Declare en una función de C, un arreglo de las siguientes formas: 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+1.Sin inicializar : YO pienso que arma un rotulo 
+    
+    int foo(){
+        int arr[20];
+    }
+
+Reserva espacio en fs que es un data segment, reserva 40
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+2.Con inicialización (int numeros[20] = {0}, ó char msg[] = “mensaje”) :
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+A. Debe reservar en fs o algun data segment
+
+    int foo(){
+        int numeros[20] = {0};
+    }
+
+Osea si, pero no, usa algunas operaciones que no conozco pero al final termina reservando igual que el anterior
+
+B. Esperaria que se reserve "mensaje" en el stack, pero de en decimales
+
+    int foo(){
+        char msg[] = "mensaje";
+    }
+
+asi parece
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+3.Sin inicializar y luego realizando una escritura en el índice 10: reserva en fs los 20 espacios y luego escribe en 10
+
+    int fooFighters(){
+        int arreglado[20];
+        arreglado[10]=1;
+    }
+
+Si, para acceder al indice lo hace mediante el ebp pero basicamente si
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+4.Con inicialización y luego realizando una escritura en el índice 10: supongo que se reserva el espacio igual que en 2A
+ y luego se carga el 1 en la pos 10
+
+    int fooFighters(){
+        int arreglado[20]={0};
+        arreglado[10]=1;
+    }
+
+Exactamente, vuelve a hacer las cosas raras pero la idea es correcta
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+5.De manera global, sin inicializar: Solo un rotulo
+
+    int arg[20];
+
+si.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+6.De manera global inicializando: El rotulo con las variables que le paso.
+
+    int arr[]={13,10,2002};
+
+Si.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Primero  suponga  cómo  debería  hacer  C  para  su  declaración,  y  luego  compare  sus 
+suposiciones con la salida en assembler. 

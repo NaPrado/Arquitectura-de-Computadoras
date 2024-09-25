@@ -1,0 +1,5 @@
+Compare la salida del archivo arguments.s con el ejemplo provisto en ASM. Más allá de 
+los elementos de control, ¿Qué diferencia encuentra? ¿Qué similitudes? 
+
+lo voy a comparar con el que hice yo, por lo tanto las primeras diferencias es que yo no pushe a la pila, sino que use
+registros con push y pop.

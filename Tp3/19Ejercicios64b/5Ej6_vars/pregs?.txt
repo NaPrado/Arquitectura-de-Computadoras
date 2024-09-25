@@ -1,0 +1,59 @@
+///////////////////////////////////////////////////////////////////////////////////////
+1.
+        //variables1.c 
+        int foo() { 
+            int numero; 
+        } 
+
+No hace nada xd, igual que en 32 
+///////////////////////////////////////////////////////////////////////////////////////
+2.
+        //variables2.c 
+        int foo() { 
+            int numero = 21; 
+        }
+
+guarda el 21 en el stack, pero luego se desarma, asi que tampoco hace nada, igual que en 32
+///////////////////////////////////////////////////////////////////////////////////////
+3.
+        //variables3.c 
+        int numero; 
+        int foo() { 
+            numero = 21; 
+        } 
+
+guatafact, usa rip para saber donde esta numero y cargarle el 21 muy raro
+///////////////////////////////////////////////////////////////////////////////////////
+4.
+        int foo() { 
+            static int numero = 21; 
+        } 
+
+La funcion no hace nada pero si se genera el rotulo con el numero 21
+///////////////////////////////////////////////////////////////////////////////////////
+5A.
+        extern int numero; 
+        int foo() { 
+            numero = 10; 
+        }
+
+Asume un rotulo numero y luego si se llama a foo se carga un 10
+///////////////////////////////////////////////////////////////////////////////////////
+5B.
+        int numero = 21; 
+        int bar() { 
+            numero = 30; 
+        }
+
+genera el rotulo con el 21 cargado y si se llama a bar se carga usando rip el 30
+numero es globl
+///////////////////////////////////////////////////////////////////////////////////////
+6.
+        static int numero = 10; 
+        int foo() { 
+            numero = 20; 
+        }
+
+se genera el rotulo con el 10, foo cambiaria el rot por 20 usando rip
+numero no es globl
+///////////////////////////////////////////////////////////////////////////////////////
