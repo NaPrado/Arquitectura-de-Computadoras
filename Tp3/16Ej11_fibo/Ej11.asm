@@ -3,21 +3,23 @@ GLOBAL _start
 fibo:
     push ebp
     mov ebp,esp
-    cmp byte[ebp+8],0
+    push ebx
+    cmp DWORD[ebp+8],0
     je .return0
-    cmp byte[ebp+8],1
+    cmp DWORD[ebp+8],1
     je .return1
     mov eax,[ebp+8]
     dec eax
     push eax
     call fibo
-    push eax
+    add esp, 4
+    mov ebx,eax
     mov eax,[ebp+8]
     sub eax,2
     push eax
     call fibo
-    pop ecx
-    add eax,ecx
+    add esp, 4
+    add eax,ebx
     jmp .fin
 .return0:
     mov eax,0
@@ -25,12 +27,15 @@ fibo:
 .return1:
     mov eax,1
 .fin:
-    mov esp,ebp
-    pop ebp
+    mov ebx, DWORD [ebp-4]
+    leave
     ret
 _start:
-    push 3
+    push ebp
+    mov ebp,esp
     push 3
     call fibo
     leave
-    ret
+    mov ebx,eax
+    mov eax, 1
+    int 80h

@@ -1,0 +1,5 @@
+Deduzca  cómo  se  pasan  las  estructuras  entre  funciones,  ¿Qué  diferencia  hay  entre 
+pasar una estructura por referencia o por copia? ¿Cómo es el retorno?
+
+Por referencia se pasa solo un puntero a la estructura, ahora para pasar una estructura por copia se 
+debe pasar por pila lo cual es más costoso, lo mismo pasa con el retorno
