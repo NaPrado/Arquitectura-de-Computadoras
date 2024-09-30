@@ -9,5 +9,5 @@ _start:
     call exit
 section .data
 timespec:
-    dd 5         ; 1 segundo
-    dd 500000000 ; 500 millones de nanosegundos (500 ms)
+    dd 0         ; 1 segundo
+    dd 900000000 ; 500 millones de nanosegundos (500 ms)
